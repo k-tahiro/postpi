@@ -1,6 +1,7 @@
 #!/bin/bash
 
-readonly TIMESTAMP="$(date '+%F %T')"
+readonly UNIX_TIME="$(date '+%s')"
+readonly TIMESTAMP="$(date -d "@${UNIX_TIME}" '+%F %T')"
 readonly TMPFILE="$(mktemp)"
 readonly SLACK_FILE_UPLOAD_URL="https://slack.com/api/files.upload"
 
@@ -12,7 +13,7 @@ function slack::upload_file() {
        -F "token=${SLACK_OAUTH_TOKEN}" \
        -F "channels=${SLACK_CHANNEL_ID}" \
        -F "file=@${file}" \
-       -F "filename=cam.jpg" \
+       -F "filename=${UNIX_TIME}.jpg" \
        -F "initial_comment=${TIMESTAMP}" \
        "${SLACK_FILE_UPLOAD_URL}" >/dev/null
 }

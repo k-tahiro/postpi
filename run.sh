@@ -4,7 +4,7 @@ readonly TIMESTAMP="$(date '+%F %T')"
 readonly TMPFILE="$(mktemp)"
 readonly SLACK_FILE_UPLOAD_URL="https://slack.com/api/files.upload"
 
-source variables.conf
+source "$(cd $(dirname "$0") && pwd)/variables.conf"
 
 function slack::upload_file() {
   local file="$1"

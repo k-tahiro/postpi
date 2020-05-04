@@ -37,6 +37,7 @@ function slack::post() {
 function shell::ok() {
   rm -f "${TMPFILE}"
   echo "Bye!"
+  sudo shutdown -h now
 }
 
 function shell::ng() {

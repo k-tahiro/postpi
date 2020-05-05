@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 readonly UNIX_TIME="$(date '+%s')"
 readonly TIMESTAMP="$(date -d "@${UNIX_TIME}" '+%F %T')"
@@ -36,12 +37,13 @@ function slack::post() {
 
 function shell::ok() {
   rm -f "${TMPFILE}"
-  echo "Bye!"
-  sudo shutdown -h now
+  echo "camera.sh has successed."
 }
 
 function shell::ng() {
-  echo "Failed..." 1>&2
+  local text="camera.sh has failed."
+  slack::post "${text}"
+  echo "${text}" 1>&2
 }
 
 function main() {

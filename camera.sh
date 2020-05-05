@@ -38,12 +38,16 @@ function slack::post() {
 function shell::ok() {
   rm -f "${TMPFILE}"
   echo "camera.sh has successed."
+
+  sudo shutdown -h now
 }
 
 function shell::ng() {
   local text="camera.sh has failed."
   slack::post "${text}"
   echo "${text}" 1>&2
+  
+  sudo shutdown -h now
 }
 
 function main() {

@@ -11,7 +11,7 @@ function git::pull() {
 
 function main() {
   git::pull
-  sh "${SRC_DIR}/camera.sh"
+  "${SRC_DIR}/camera.sh"
 }
 
 main "$@"

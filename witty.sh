@@ -1,6 +1,13 @@
 #!/bin/bash
 
 function witty::schedule() {
+  if [ -f schedule.wpi.md5 ]; then
+    md5sum -c schedule.wpi.md5
+    if [ $? -eq 0 ]; then
+      return 0
+    fi
+  fi
+  md5sum schedule.wpi >schedule.wpi.md5
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"
   expect \"What do you want to do? (1~11)\"

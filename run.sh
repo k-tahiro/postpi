@@ -14,7 +14,7 @@ function git::pull() {
   popd
 }
 
-function witty::update() {
+function witty::schedule() {
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"
   expect \"What do you want to do? (1~11)\"
@@ -28,7 +28,7 @@ function witty::update() {
 
 function main() {
   git::pull
-  witty::update
+  witty::schedule
   "${SRC_DIR}/camera.sh"
 }
 

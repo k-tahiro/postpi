@@ -40,7 +40,7 @@ function shell::ok() {
   rm -f "${TMPFILE}"
   echo "camera.sh has successed."
 
-  # sudo shutdown -h now
+  sudo shutdown -h now
 }
 
 function shell::ng() {
@@ -48,7 +48,7 @@ function shell::ng() {
   slack::post "${text}"
   echo "${text}" 1>&2
   
-  # sudo shutdown -h now
+  sudo shutdown -h now
 }
 
 function main() {

@@ -1,11 +1,16 @@
 #!/bin/bash
-set -e
 
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 
 function git::pull() {
   pushd "${SRC_DIR}"
-  sudo -u pi git pull
+  while :; do
+    sudo -u pi git pull
+    if [ $? -eq 0 ]; then
+      break
+    fi
+    sleep 1
+  done
   popd
 }
 

@@ -11,7 +11,7 @@ function git::pull() {
 
 function witty::update() {
   expect -c "
-  spawn \"${HOME}/wittypi/wittyPi.sh\"
+  spawn \"/home/pi/wittypi/wittyPi.sh\"
   expect \"What do you want to do? (1~11)\"
   send \"6\n\"
   expect \"Which schedule script do you want to use? (1~7)\"

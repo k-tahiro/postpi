@@ -5,7 +5,7 @@ readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 
 function git::pull() {
   pushd "${SRC_DIR}"
-  git pull
+  sudo -u pi git pull
   popd
 }
 

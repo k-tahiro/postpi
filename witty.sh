@@ -20,9 +20,9 @@ function witty::schedule() {
   send \"11\n\"
   "
   if [[ $? == 0 ]]; then
-    slack::post "Schedule update successed!"
+    slack::post "Successed to update schedule."
   else
-    slack::post "Schedule update failed..."
+    slack::post "Failed to update schedule."
   fi
 }
 

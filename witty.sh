@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$(cd $(dirname "$0") && pwd)/slack.sh"
+
 function witty::schedule() {
   if [ -f schedule.wpi.md5 ]; then
     md5sum -c schedule.wpi.md5
@@ -17,6 +19,11 @@ function witty::schedule() {
   expect \"What do you want to do? (1~11)\"
   send \"11\n\"
   "
+  if [[ $? == 0 ]]; then
+    slack::post "Schedule update successed!"
+  else
+    slack::post "Schedule update failed..."
+  fi
 }
 
 function witty::parameter() {

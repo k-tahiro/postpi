@@ -2,6 +2,11 @@
 
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 
+function network::adv() {
+  curl -F "JUMPPAGE=ADVERTISE" "http://google.co.jp" >adv.html
+  curl "http://www.freespot.com/"
+}
+
 function git::pull() {
   pushd "${SRC_DIR}"
   while :; do
@@ -10,6 +15,7 @@ function git::pull() {
       break
     fi
     sleep 1
+    network::adv
   done
   popd
 }

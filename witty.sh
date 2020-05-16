@@ -1,15 +1,16 @@
 #!/bin/bash
 
-source "$(cd $(dirname "$0") && pwd)/slack.sh"
+readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
+source "${SRC_DIR}/slack.sh"
 
 function witty::schedule() {
-  if [ -f schedule.wpi.md5 ]; then
-    md5sum -c schedule.wpi.md5
+  if [ -f "${SRC_DIR}/schedule.wpi.md5" ]; then
+    md5sum -c "${SRC_DIR}/schedule.wpi.md5"
     if [ $? -eq 0 ]; then
       return 0
     fi
   fi
-  md5sum schedule.wpi >schedule.wpi.md5
+  md5sum "${SRC_DIR}/schedule.wpi" >"${SRC_DIR}/schedule.wpi.md5"
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"
   expect \"What do you want to do? (1~11)\"

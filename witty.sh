@@ -59,7 +59,7 @@ function witty::parameter() {
 
 function main() {
   witty::schedule
-  witty::parameter 1 100 10
+  witty::parameter 8 100 10
 }
 
 main "$@"

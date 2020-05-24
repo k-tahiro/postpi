@@ -4,32 +4,30 @@ set -eu
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 readonly LOG_FILE="${SRC_DIR}/run.log"
 
-source "$(cd $(dirname "$0") && pwd)/slack.sh"
-
-function network::check() {
-  ip addr | grep wlan0 || sudo shutdown -r now
-}
-
-function network::adv() {
-  curl -F "JUMPPAGE=ADVERTISE" "http://google.co.jp" >adv.html
-  curl "http://www.freespot.com/"
-}
-
+##################################################
+# Git functions
+##################################################
 function git::pull() {
   pushd "${SRC_DIR}"
   while :; do
-    set +e
     sudo -u pi git pull
     if [[ $? -eq 0 ]]; then
       break
     fi
-    set -e
     sleep 1
     network::adv
   done
   popd
 }
 
+function network::adv() {
+  curl -F "JUMPPAGE=ADVERTISE" "http://google.co.jp"
+  curl "http://www.freespot.com/"
+}
+
+##################################################
+# Shellscript functions
+##################################################
 function shell::ok() {
   shell::finalize
 }
@@ -45,10 +43,13 @@ function shell::finalize() {
 }
 
 function main() {
-  network::check
+  ip addr | grep wlan0 || sudo shutdown -r now  # Check network status
   git::pull
-  "${SRC_DIR}/witty.sh"
-  "${SRC_DIR}/camera.sh"
+
+  source "${SRC_DIR}/functions"
+  witty::schedule
+  witty::parameter 2 100 255
+  slack::upload_file "$(rpi::camera)"
 }
 
 main "$@" &>"${LOG_FILE}"

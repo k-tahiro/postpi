@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu
 
 readonly TMPFILE="$(mktemp)"
 source "$(cd $(dirname "$0") && pwd)/slack.sh"

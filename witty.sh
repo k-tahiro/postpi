@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu
 
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 source "${SRC_DIR}/slack.sh"

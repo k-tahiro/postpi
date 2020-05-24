@@ -18,10 +18,12 @@ function network::adv() {
 function git::pull() {
   pushd "${SRC_DIR}"
   while :; do
+    set +e
     sudo -u pi git pull
     if [[ $? -eq 0 ]]; then
       break
     fi
+    set -e
     sleep 1
     network::adv
   done

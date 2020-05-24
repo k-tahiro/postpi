@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -e
 
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 readonly LOG_FILE="${SRC_DIR}/run.log"

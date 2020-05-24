@@ -48,7 +48,7 @@ function main() {
 
   source "${SRC_DIR}/functions"
   witty::schedule
-  witty::parameter 2 100 255
+  witty::parameter
   slack::upload_file "$(rpi::camera)"
 }
 

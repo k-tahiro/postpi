@@ -39,8 +39,7 @@ function shell::ng() {
 }
 
 function shell::finalize() {
-  # sudo shutdown -h now
-  echo skip shutdown
+  sudo shutdown -h now
 }
 
 function main() {

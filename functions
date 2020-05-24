@@ -1,5 +1,4 @@
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
-source "${SRC_DIR}/variables.conf"
 
 ##################################################
 # Raspberry Pi functions
@@ -14,6 +13,7 @@ function rpi::camera() {
 # Slack functions
 ##################################################
 readonly SLACK_FILE_UPLOAD_URL="https://slack.com/api/files.upload"
+source "${SRC_DIR}/slack.conf"
 
 function slack::upload_file() {
   local file="$1"
@@ -46,6 +46,8 @@ function slack::post() {
 ##################################################
 # Witty Pi 3 functions
 ##################################################
+source "${SRC_DIR}/witty.conf"
+
 function witty::schedule() {
   if [ -f "${SRC_DIR}/schedule.wpi.md5" ]; then
     set +e
@@ -73,9 +75,9 @@ function witty::schedule() {
 }
 
 function witty::parameter() {
-  local interval="${1:-4}"
-  local wl_duration="${2:-100}"
-  local dm_duration="${3:-10}"
+  local interval="${1:-"${WITTY_PULSING_INTERVAL:-4}"}"
+  local wl_duration="${2:-"${WITTY_WHITE_LED_DURATION:-100}"}"
+  local dm_duration="${3:-"${WITTY_DUMMY_LOAD_DURATION:-0}"}"
 
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"

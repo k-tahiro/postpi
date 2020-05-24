@@ -8,10 +8,10 @@ function witty::schedule() {
   if [ -f "${SRC_DIR}/schedule.wpi.md5" ]; then
     set +e
     md5sum -c "${SRC_DIR}/schedule.wpi.md5"
-    set -e
-    if [ $? -eq 0 ]; then
+    if [[ $? -eq 0 ]]; then
       return 0
     fi
+    set -e
   fi
   md5sum "${SRC_DIR}/schedule.wpi" >"${SRC_DIR}/schedule.wpi.md5"
   expect -c "

@@ -51,7 +51,7 @@ function main() {
   "${SRC_DIR}/camera.sh"
 }
 
-main "$@" >"${LOG_FILE}"
+main "$@" &>"${LOG_FILE}"
 
 trap shell::ok EXIT
 trap shell::ng INT PIPE TERM

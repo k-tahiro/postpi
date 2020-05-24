@@ -6,6 +6,10 @@ readonly LOG_FILE="${SRC_DIR}/run.log"
 
 source "$(cd $(dirname "$0") && pwd)/slack.sh"
 
+function network::check() {
+  ip addr | grep wlan0 || sudo shutdown -r now
+}
+
 function network::adv() {
   curl -F "JUMPPAGE=ADVERTISE" "http://google.co.jp" >adv.html
   curl "http://www.freespot.com/"
@@ -25,16 +29,21 @@ function git::pull() {
 }
 
 function shell::ok() {
-  rm -f "${TMPFILE}"
-  echo "Bye!"
+  shell::finalize
 }
 
 function shell::ng() {
   slack::post "Failed to complete..."
   slack::upload_file "${LOG_FILE}"
+  shell::finalize
+}
+
+function shell::finalize() {
+  sudo shutdown -h now
 }
 
 function main() {
+  network::check
   git::pull
   "${SRC_DIR}/witty.sh"
   "${SRC_DIR}/camera.sh"

@@ -8,8 +8,13 @@ readonly LOG_FILE="${SRC_DIR}/run.log"
 # Git functions
 ##################################################
 function git::pull() {
+  local count=0
   pushd "${SRC_DIR}"
   while :; do
+    if [[ ${count} > 60 ]]; then
+      echo "Could not authenticate" 1>&2
+      sudo shutdown -r now
+    fi
     set +e
     sudo -u pi git pull
     if [[ $? -eq 0 ]]; then
@@ -18,6 +23,7 @@ function git::pull() {
     set -e
     sleep 1
     network::adv
+    count=$((count+1))
   done
   popd
 }

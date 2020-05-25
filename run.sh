@@ -47,8 +47,9 @@ function main() {
   git::pull
 
   source "${SRC_DIR}/functions"
+  source "${SRC_DIR}/witty.conf"
   witty::schedule
-  witty::parameter
+  witty::parameter "${WITTY_PULSING_INTERVAL}" "${WITTY_WHITE_LED_DURATION}" "${WITTY_DUMMY_LOAD_DURATION}"
   slack::upload_file "$(rpi::camera)"
 }
 

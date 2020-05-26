@@ -46,8 +46,12 @@ function main() {
   git::pull || sudo shutdown -r now
 
   source "${SRC_DIR}/functions"
+
+  echo "Updating witty settings..."
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
+
+  echo "Using camera and uploading..."
   slack::upload_file "$(rpi::camera)"
 }
 

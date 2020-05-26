@@ -66,9 +66,9 @@ function witty::schedule() {
 }
 
 function witty::parameter() {
-  local interval="${1:-"${WITTY_PULSING_INTERVAL:-4}"}"
-  local wl_duration="${2:-"${WITTY_WHITE_LED_DURATION:-100}"}"
-  local dm_duration="${3:-"${WITTY_DUMMY_LOAD_DURATION:-0}"}"
+  local interval="${1:-4}"
+  local wl_duration="${2:-100}"
+  local dm_duration="${3:-0}"
 
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"
@@ -93,4 +93,21 @@ function witty::parameter() {
   expect \"What do you want to do? (1~11)\"
   send \"11\n\"
   "
+}
+
+function witty::parameter_from_file() {
+  local file="$1"
+
+  if [[ -f "${file}.md5" ]]; then
+    set +e
+    md5sum -c "${file}.md5"
+    if [[ $? -eq 0 ]]; then
+      return 0
+    fi
+    set -e
+  fi
+  md5sum "${file}" >"${file}.md5"
+
+  source "${file}"
+  witty::parameter "${WITTY_PULSING_INTERVAL}" "${WITTY_WHITE_LED_DURATION}" "${WITTY_DUMMY_LOAD_DURATION}"
 }

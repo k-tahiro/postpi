@@ -51,9 +51,8 @@ function main() {
   set -e
 
   source "${SRC_DIR}/functions"
-  source "${SRC_DIR}/witty.conf"
   witty::schedule
-  witty::parameter "${WITTY_PULSING_INTERVAL}" "${WITTY_WHITE_LED_DURATION}" "${WITTY_DUMMY_LOAD_DURATION}"
+  witty::parameter_from_file "${SRC_DIR}/witty.conf"
   slack::upload_file "$(rpi::camera)"
 }
 

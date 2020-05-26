@@ -50,7 +50,7 @@ function witty::schedule() {
     md5sum -c "${SRC_DIR}/schedule.wpi.md5"
     if [[ $? -eq 0 ]]; then
       # return 0
-      echo not changed
+      slack::post "dummy schedule update"
     fi
     set -e
   fi

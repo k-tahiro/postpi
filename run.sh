@@ -30,17 +30,13 @@ function network::adv() {
 ##################################################
 # Shellscript functions
 ##################################################
-function shell::ok() {
-  shell::finalize
-}
-
 function shell::ng() {
   slack::post "Failed to complete..."
-  slack::upload_file "${LOG_FILE}"
-  shell::finalize
+  exit 1
 }
 
-function shell::finalize() {
+function shell::exit() {
+  slack::upload_file "${LOG_FILE}"
   sudo shutdown -h now
 }
 
@@ -56,7 +52,7 @@ function main() {
   slack::upload_file "$(rpi::camera)"
 }
 
-main "$@" &>"${LOG_FILE}"
+trap shell::exit EXIT
+trap shell::ng ERR
 
-trap shell::ok EXIT
-trap shell::ng INT PIPE TERM
+main "$@" &>"${LOG_FILE}"

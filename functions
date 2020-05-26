@@ -1,4 +1,21 @@
 ##################################################
+# Utility functions
+##################################################
+function util::check_md5() {
+  local file="$1"
+
+  if [[ -f "${file}.md5" ]]; then
+    set +E
+    md5sum -c "${file}.md5"
+    if [[ $? -eq 0 ]]; then
+      return 0
+    fi
+    set -E
+  fi
+  md5sum "${file}" >"${file}.md5"
+}
+
+##################################################
 # Raspberry Pi functions
 ##################################################
 function rpi::camera() {
@@ -45,15 +62,7 @@ function slack::post() {
 # Witty Pi 3 functions
 ##################################################
 function witty::schedule() {
-  if [[ -f "${SRC_DIR}/schedule.wpi.md5" ]]; then
-    set +e
-    md5sum -c "${SRC_DIR}/schedule.wpi.md5"
-    if [[ $? -eq 0 ]]; then
-      return 0
-    fi
-    set -e
-  fi
-  md5sum "${SRC_DIR}/schedule.wpi" >"${SRC_DIR}/schedule.wpi.md5"
+  util::check_md5 "${SRC_DIR}/schedule.wpi"
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"
   expect \"What do you want to do? (1~11)\"
@@ -97,16 +106,7 @@ function witty::parameter() {
 
 function witty::parameter_from_file() {
   local file="$1"
-
-  if [[ -f "${file}.md5" ]]; then
-    set +e
-    md5sum -c "${file}.md5"
-    if [[ $? -eq 0 ]]; then
-      return 0
-    fi
-    set -e
-  fi
-  md5sum "${file}" >"${file}.md5"
+  util::check_md5 "${file}"
 
   source "${file}"
   witty::parameter "${WITTY_PULSING_INTERVAL}" "${WITTY_WHITE_LED_DURATION}" "${WITTY_DUMMY_LOAD_DURATION}"

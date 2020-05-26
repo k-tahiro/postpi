@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -Eu
 
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 readonly LOG_FILE="${SRC_DIR}/run.log"
@@ -41,10 +41,10 @@ function shell::exit() {
 }
 
 function main() {
-  set +e
+  set +E
   ip addr | grep wlan0 || sudo shutdown -r now  # Check network status
   git::pull || sudo shutdown -r now
-  set -e
+  set -E
 
   source "${SRC_DIR}/functions"
   witty::schedule

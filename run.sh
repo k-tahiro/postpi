@@ -41,10 +41,8 @@ function shell::exit() {
 }
 
 function main() {
-  set +E
   ip addr | grep wlan0 || sudo shutdown -r now  # Check network status
   git::pull || sudo shutdown -r now
-  set -E
 
   source "${SRC_DIR}/functions"
   witty::schedule

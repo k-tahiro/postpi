@@ -4,13 +4,8 @@
 function util::check_md5() {
   local file="$1"
 
-  if [[ -f "${file}.md5" ]]; then
-    set +E
-    md5sum -c "${file}.md5"
-    if [[ $? -eq 0 ]]; then
-      return 0
-    fi
-    set -E
+  if [[ -f "${file}.md5" && $(md5sum -c "${file}.md5") ]]; then
+     return 0
   fi
   md5sum "${file}" >"${file}.md5"
 }

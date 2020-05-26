@@ -45,7 +45,7 @@ function slack::post() {
 # Witty Pi 3 functions
 ##################################################
 function witty::schedule() {
-  if [ -f "${SRC_DIR}/schedule.wpi.md5" ]; then
+  if [[ -f "${SRC_DIR}/schedule.wpi.md5" ]]; then
     set +e
     md5sum -c "${SRC_DIR}/schedule.wpi.md5"
     if [[ $? -eq 0 ]]; then

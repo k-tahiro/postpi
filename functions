@@ -49,8 +49,7 @@ function witty::schedule() {
     set +e
     md5sum -c "${SRC_DIR}/schedule.wpi.md5"
     if [[ $? -eq 0 ]]; then
-      # return 0
-      slack::post "dummy schedule update"
+      return 0
     fi
     set -e
   fi
@@ -64,11 +63,6 @@ function witty::schedule() {
   expect \"What do you want to do? (1~11)\"
   send \"11\n\"
   "
-  if [[ $? == 0 ]]; then
-    slack::post "Successed to update schedule."
-  else
-    slack::post "Failed to update schedule."
-  fi
 }
 
 function witty::parameter() {

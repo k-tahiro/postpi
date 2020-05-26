@@ -8,24 +8,18 @@ readonly LOG_FILE="${SRC_DIR}/run.log"
 # Git functions
 ##################################################
 function git::pull() {
-  local count=0
   pushd "${SRC_DIR}"
-  while :; do
-    if [[ ${count} > 60 ]]; then
-      echo "Could not authenticate" 1>&2
-      sudo shutdown -r now
-    fi
-    set +e
+  for i in $(seq 60); do
     sudo -u pi git pull
     if [[ $? -eq 0 ]]; then
-      break
+      popd
+      return 0
     fi
-    set -e
     sleep 1
     network::adv
-    count=$((count+1))
   done
   popd
+  return 1
 }
 
 function network::adv() {
@@ -51,8 +45,10 @@ function shell::finalize() {
 }
 
 function main() {
+  set +e
   ip addr | grep wlan0 || sudo shutdown -r now  # Check network status
-  git::pull
+  git::pull || sudo shutdown -r now
+  set -e
 
   source "${SRC_DIR}/functions"
   source "${SRC_DIR}/witty.conf"

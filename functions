@@ -33,7 +33,7 @@ function slack::upload_file() {
                          -F "file=@${file}" \
                          -F "filename=$(basename "${file}")" \
                          "${SLACK_FILE_UPLOAD_URL}")"
-  echo "${response}" | python -c 'import sys; import json; sys.exit(0 if json.loads(raw_input())["ok"] else 1)'
+  echo "${response}" | tee -a "${LOG_FILE}" | python -c 'import sys; import json; sys.exit(0 if json.loads(raw_input())["ok"] else 1)'
 }
 
 function slack::create_payload() {
@@ -49,7 +49,7 @@ EOF
 function slack::post() {
   local text="$1"
   local payload="$(slack::create_payload "${text}")"
-  curl -fsL -X POST --data "${payload}" "${SLACK_WEBHOOK_URL}" >/dev/null
+  curl -fsL -X POST --data "${payload}" "${SLACK_WEBHOOK_URL}"
 }
 
 ##################################################

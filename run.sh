@@ -10,8 +10,7 @@ readonly LOG_FILE="${SRC_DIR}/run.log"
 function git::pull() {
   pushd "${SRC_DIR}"
   for i in $(seq 60); do
-    sudo -u pi git pull
-    if [[ $? -eq 0 ]]; then
+    if sudo -u pi git pull; then
       popd
       return 0
     fi
@@ -43,8 +42,8 @@ function shell::exit() {
 
 function main() {
   ip addr | grep wlan0 || sudo shutdown -r now  # Check network status
-  git::pull || sudo shutdown -r now
 
+  git::pull
   source "${SRC_DIR}/functions"
 
   echo "Updating witty settings..."

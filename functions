@@ -60,6 +60,8 @@ function witty::schedule() {
   if util::check_md5 "${SRC_DIR}/schedule.wpi"; then
     return 0
   fi
+  
+  echo "Updating schedule..."
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"
   expect \"What do you want to do? (1~11)\"
@@ -76,6 +78,7 @@ function witty::parameter() {
   local wl_duration="${2:-100}"
   local dm_duration="${3:-0}"
 
+  echo "Updating parameters..."
   expect -c "
   spawn \"/home/pi/wittypi/wittyPi.sh\"
   expect \"What do you want to do? (1~11)\"

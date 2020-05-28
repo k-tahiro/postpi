@@ -71,6 +71,9 @@ function witty::schedule() {
   expect \"What do you want to do? (1~11)\"
   send \"11\n\"
   "
+
+  echo ""
+  echo "Schedule is successfully updated!"
 }
 
 function witty::parameter() {
@@ -102,6 +105,9 @@ function witty::parameter() {
   expect \"What do you want to do? (1~11)\"
   send \"11\n\"
   "
+
+  echo ""
+  echo "Parameters are successfully updated!"
 }
 
 function witty::parameter_from_file() {

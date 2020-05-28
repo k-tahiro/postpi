@@ -36,7 +36,7 @@ function shell::ng() {
 }
 
 function shell::exit() {
-  sudo shutdown -h now
+  echo sudo shutdown -h now
 }
 
 function main() {

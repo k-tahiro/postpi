@@ -57,9 +57,9 @@ function slack::post() {
 # Witty Pi 3 functions
 ##################################################
 function witty::schedule() {
-  if util::check_md5 "${SRC_DIR}/schedule.wpi"; then
-    return 0
-  fi
+  # if util::check_md5 "${SRC_DIR}/schedule.wpi"; then
+  #   return 0
+  # fi
   
   echo "Updating schedule..."
   expect -c "

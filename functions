@@ -57,9 +57,9 @@ function slack::post() {
 # Witty Pi 3 functions
 ##################################################
 function witty::schedule() {
-  # if util::check_md5 "${SRC_DIR}/schedule.wpi"; then
-  #   return 0
-  # fi
+  if util::check_md5 "${SRC_DIR}/schedule.wpi"; then
+    return 0
+  fi
   
   echo "Updating schedule..."
   expect -c "
@@ -112,9 +112,9 @@ function witty::parameter() {
 
 function witty::parameter_from_file() {
   local file="$1"
-  if util::check_md5 "${file}"; then
-    return 0
-  fi
+  # if util::check_md5 "${file}"; then
+  #   return 0
+  # fi
 
   source "${file}"
   witty::parameter "${WITTY_PULSING_INTERVAL}" "${WITTY_WHITE_LED_DURATION}" "${WITTY_DUMMY_LOAD_DURATION}"

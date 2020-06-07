@@ -29,4 +29,8 @@ OFF   M55
 ON    M5
 OFF   M55
 ON    M5
-OFF   H9 M55
+OFF   H2 M55
+ON    M5
+OFF   H2 M55
+ON    M5
+OFF   H3 M55

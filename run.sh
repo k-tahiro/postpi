@@ -40,7 +40,7 @@ function shell::exit() {
 }
 
 function main() {
-  ip addr | grep wlan0 || sudo shutdown -r now  # Check network status
+  ip addr | grep wlan0
 
   git::pull
   source "${SRC_DIR}/functions"

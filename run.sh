@@ -56,4 +56,4 @@ function main() {
 trap shell::exit EXIT
 trap shell::ng ERR
 
-main "$@" 2>&1 | tee "${LOG_FILE}"
+main "$@" |& tee -a "${LOG_FILE}"

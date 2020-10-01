@@ -32,6 +32,9 @@ function network::adv() {
 function shell::ng() {
   slack::post "Failed to complete..."
   slack::upload_file "${LOG_FILE}"
+  if [[ $? != 0 ]]; then
+    sudo shutdown -r now
+  fi
   exit 1
 }
 

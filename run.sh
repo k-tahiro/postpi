@@ -52,8 +52,8 @@ function main() {
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
-  echo "Using camera and uploading..."
-  slack::upload_file "$(rpi::camera)"
+  # echo "Using camera and uploading..."
+  # slack::upload_file "$(rpi::camera)"
 }
 
 trap shell::exit EXIT

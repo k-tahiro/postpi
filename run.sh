@@ -48,6 +48,8 @@ function main() {
   git::pull
   source "${SRC_DIR}/functions"
 
+  exit 0
+
   echo "Updating witty settings..."
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"

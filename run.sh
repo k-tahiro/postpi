@@ -49,7 +49,8 @@ function main() {
   source "${SRC_DIR}/functions"
 
   while :; do
-    moonlight stream 192.168.0.70 -app Steam
+    moonlight stream 192.168.0.70 -app Steam -verbose
+    echo 'Failed to launch.' >&2
   done
   exit 0
 

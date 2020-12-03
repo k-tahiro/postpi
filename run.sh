@@ -48,6 +48,9 @@ function main() {
   git::pull
   source "${SRC_DIR}/functions"
 
+  while :; do
+    moonlight stream 192.168.0.70 -app Steam
+  done
   exit 0
 
   echo "Updating witty settings..."

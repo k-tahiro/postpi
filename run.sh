@@ -48,18 +48,19 @@ function main() {
   git::pull
   source "${SRC_DIR}/functions"
 
-  while :; do
-    moonlight stream 192.168.0.70 -app Steam -verbose
-    echo 'Failed to launch.' >&2
-  done
-  exit 0
-
   echo "Updating witty settings..."
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
-  # echo "Using camera and uploading..."
-  # slack::upload_file "$(rpi::camera)"
+  PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection" python3 detect.py
+  if [[ $? == 0 ]]; then
+    slack::post "k-tahiro is detected!"
+  else
+    slack::post "k-tahiro is not detected..."
+  fi
+
+  echo "Using camera and uploading..."
+  slack::upload_file "$(rpi::camera)"
 }
 
 trap shell::exit EXIT

@@ -34,7 +34,7 @@ def parse_args():
         help='Timeout seconds.',
         required=False,
         type=int,
-        default=3600
+        default=5400
     )
     return parser.parse_args()
 

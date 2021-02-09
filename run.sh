@@ -1,5 +1,5 @@
 #!/bin/bash
-set -Eu
+set -eu
 
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 readonly LOG_FILE="${SRC_DIR}/run.log"
@@ -24,7 +24,9 @@ function main() {
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
+  set +e
   PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi" python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite"
+  set -e
   if [[ $? == 0 ]]; then
     slack::post "k-tahiro is detected!"
   else

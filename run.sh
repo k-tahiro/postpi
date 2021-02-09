@@ -4,31 +4,6 @@ set -Eu
 readonly SRC_DIR="$(cd $(dirname "$0") && pwd)"
 readonly LOG_FILE="${SRC_DIR}/run.log"
 
-##################################################
-# Git functions
-##################################################
-function git::pull() {
-  pushd "${SRC_DIR}"
-  for i in $(seq 60); do
-    if sudo -u pi git pull; then
-      popd
-      return 0
-    fi
-    sleep 1
-    network::adv
-  done
-  popd
-  return 1
-}
-
-function network::adv() {
-  curl -F "JUMPPAGE=ADVERTISE" "http://google.co.jp"
-  curl "http://www.freespot.com/"
-}
-
-##################################################
-# Shellscript functions
-##################################################
 function shell::ng() {
   slack::post "Failed to complete..."
   slack::upload_file "${LOG_FILE}"
@@ -43,16 +18,13 @@ function shell::exit() {
 }
 
 function main() {
-  ip addr | grep wlan0
-
-  git::pull
   source "${SRC_DIR}/functions"
 
   echo "Updating witty settings..."
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
-  PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection" python3 "${SRC_DIR}/detect.py" --model detect.tflite
+  PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi" python3 "${SRC_DIR}/detect.py" --model detect.tflite
   if [[ $? == 0 ]]; then
     slack::post "k-tahiro is detected!"
   else

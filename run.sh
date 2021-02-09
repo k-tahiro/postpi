@@ -24,7 +24,7 @@ function main() {
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
-  PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi" python3 "${SRC_DIR}/detect.py" --model detect.tflite
+  PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi" python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite"
   if [[ $? == 0 ]]; then
     slack::post "k-tahiro is detected!"
   else

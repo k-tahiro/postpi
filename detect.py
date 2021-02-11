@@ -36,6 +36,11 @@ def parse_args():
         type=int,
         default=5400
     )
+    parser.add_argument(
+        '--inverse',
+        help='Inverse detect result.',
+        action='store_true'
+    )
     return parser.parse_args()
 
 
@@ -59,7 +64,7 @@ def main():
                 results = detect_objects(interpreter, image, args.threshold)
 
                 for result in results:
-                    if result['class_id'] == 0:
+                    if args.inverse ^ (result['class_id'] == 0):
                         sys.exit(0)
 
                 if time.monotonic() - start_time > args.timeout:

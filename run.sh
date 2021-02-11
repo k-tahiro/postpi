@@ -25,12 +25,25 @@ function main() {
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
   set +e
-  PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi" python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite"
+  export PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi"
+  if [[ -f "${SRC_DIR}/begin" ]]; then
+    python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite" --inverse
+  else
+    python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite"
+  fi
   set -e
   if [[ $? == 0 ]]; then
-    slack::post "k-tahiro is detected!"
+    if [[ -f "${SRC_DIR}/begin" ]]; then
+      slack::post "Begin: $(cat "${SRC_DIR}/begin")\nFinish: $(date '%H:%M')"
+    else
+      date '+%H:%M' | tr -d '\n' >"${SRC_DIR}/begin"
+    fi
+    slack::post "Successed to detect!"
   else
-    slack::post "k-tahiro is not detected..."
+    if [[ -f "${SRC_DIR}/begin" ]]; then
+      rm -f "${SRC_DIR}/begin"
+    fi
+    slack::post "Failed to detect..."
   fi
 
   echo "Using camera and uploading..."

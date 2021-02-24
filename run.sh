@@ -24,7 +24,7 @@ function main() {
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
-  moonlight stream
+  sudo -u pi moonlight stream
   return 0
 
   set +e

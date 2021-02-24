@@ -27,9 +27,9 @@ function main() {
   set +e
   export PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi"
   if [[ -f "${SRC_DIR}/begin" ]]; then
-    python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite" --inverse
+    python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite" --inverse --timeout 60
   else
-    python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite"
+    python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite" --timeout 60
   fi
   set -e
   if [[ $? == 0 ]]; then

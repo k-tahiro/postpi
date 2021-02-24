@@ -31,8 +31,9 @@ function main() {
   else
     python3 "${SRC_DIR}/detect.py" --model "${SRC_DIR}/detect.tflite" --timeout 60
   fi
+  rc=$?
   set -e
-  if [[ $? == 0 ]]; then
+  if [[ $rc == 0 ]]; then
     if [[ -f "${SRC_DIR}/begin" ]]; then
       slack::post "Begin: $(cat "${SRC_DIR}/begin")\nFinish: $(date '%H:%M')"
     else

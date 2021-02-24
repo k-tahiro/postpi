@@ -24,6 +24,8 @@ function main() {
   witty::schedule
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
+  return 0
+
   set +e
   export PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi"
   if [[ -f "${SRC_DIR}/begin" ]]; then

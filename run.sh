@@ -17,16 +17,7 @@ function shell::exit() {
   echo "Exit script..."
 }
 
-function main() {
-  source "${SRC_DIR}/functions"
-
-  echo "Updating witty settings..."
-  witty::schedule
-  witty::parameter_from_file "${SRC_DIR}/witty.conf"
-
-  sudo -u pi moonlight stream
-  return 0
-
+function run::camera() {
   set +e
   export PYTHONPATH="${SRC_DIR}/examples/lite/examples/object_detection/raspberry_pi"
   if [[ -f "${SRC_DIR}/begin" ]]; then
@@ -52,6 +43,17 @@ function main() {
 
   echo "Using camera and uploading..."
   slack::upload_file "$(rpi::camera)"
+}
+
+function main() {
+  source "${SRC_DIR}/functions"
+
+  echo "Updating witty settings..."
+  witty::schedule
+  witty::parameter_from_file "${SRC_DIR}/witty.conf"
+
+  # run::camera
+  sudo -u pi moonlight stream
 }
 
 trap shell::exit EXIT

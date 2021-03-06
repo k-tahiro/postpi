@@ -53,7 +53,6 @@ function main() {
   witty::parameter_from_file "${SRC_DIR}/witty.conf"
 
   # run::camera
-  sudo -u pi moonlight stream
 }
 
 trap shell::exit EXIT
